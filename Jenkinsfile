@@ -1,4 +1,5 @@
 /* groovylint-disable-next-line CompileStatic */
+@Library('piper-lib-os') _   //to use the newman docker image
 
 pipeline {
     agent any
@@ -64,17 +65,20 @@ pipeline {
         }
 
         stage('API Tests') {
-         agent {
-                docker { image 'postman/newman' }
-            }
-            when {
-                beforeAgent true
-                branch 'master'
+           when {
+               branch 'master'
             }
             steps {
                 //execute newman(postman) script
-                sh 'newman run scripts/apiTests.postman_collection.json --reporters cli, htmlextra --reporter-htmlextra-export target/newman/TEST-newman.html'
+                newmanExecute(script: this, failOnError: true,
+                        newmanInstallCommand: 'npm install newman --global newman-reporter-htmlextra --quiet',
+                        newmanCollection: "scripts/apiTests.postman_collection.json",
+                        runOptions: ["run", "apiTests.postman_collection.json",
+                                     "--reporters", "cli,htmlextra",
+                                     "--reporter-htmlextra-export", "target/newman/TEST-newman.html"]
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/newman/**'
+                //publish HTML Report
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'target/newman/', pattern: 'TEST-*.html', reportName: 'ResultsTest-DevOps Platform User App'])
             }
         }
     }
