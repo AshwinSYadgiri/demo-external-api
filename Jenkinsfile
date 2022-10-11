@@ -35,11 +35,12 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'cf-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'cf login -a https://api.cf.us10-001.hana.ondemand.com -u $USERNAME -p $PASSWORD -o 3301a7a9trial -s dev '
                         sh 'cf push -f manifest.yml'
+                        sleep(time:10,unit:"SECONDS")
 
                         script {
                             def url = 'https://devops-platform-users.cfapps.us10-001.hana.ondemand.com/actuator/health'
                             if (sh(returnStdout: true, script: "curl -so /dev/null -w '% {response_code}' ${url}").trim() != '200') {
-                            echo  'Health Check Failed- Check the application logs'
+                            error "Health check failed: ${statusCode}"
                             }
                             else {
                             echo 'Service is UP'
@@ -52,8 +53,7 @@ pipeline {
         stage('API Tests') {
             when { branch 'master' }
             steps {
-                //install newman
-                sh 'npm install newman --global newman-reporter-htmlextra --quiet'
+                //execute newman(postman) script
                 sh "newman run scripts/apiTests.postman_collection.json --reporters, cli,htmlextra,target/newman/TEST-newman.xml,--reporter-htmlextra-export,target/newman/TEST-newman.html"
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/newman/**'
             }
