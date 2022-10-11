@@ -4,8 +4,15 @@ Spring Boot Application to get the list of users.
 
 ### How to execute the Project
 
+Clone or import the project to the IDE.
 
+1. Build - `mvn clean install`
+2. Run - `mvn spring-boot:run`
 
+### Pipeline
+
+CI/CD Pipeline is implemented which will execute the stages - `Build` , `Publish Test Results`, `Deployment`.
+More Details in the `Jenkinsfile`
 
 ### Reference Documentation
 For further reference, please consider the following sections:
