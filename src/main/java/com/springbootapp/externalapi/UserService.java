@@ -14,6 +14,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 
 import com.springbootapp.model.User;
 
@@ -31,7 +32,7 @@ public class UserService {
 		this.restTemplate = restTemplate;
 	}
 
-	public Object getUsers() {
+	public Object getUsers() throws ApplicationExceptionHandler {
     	
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("user-agent", "Application");
@@ -51,7 +52,12 @@ public class UserService {
 		ResponseEntity resp = 
 		          restTemplate.getForEntity("https://reqres.in/api/users", User.class);
 		
-		return resp.getStatusCode() == HttpStatus.OK ? resp.getBody() : null;
+		if ((resp.getStatusCode() == HttpStatus.OK)) {
+			return  resp.getBody();
+		} else {
+			throw new ApplicationExceptionHandler();
+		}
+				
         
 	
     }

@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class RestAppController {
 	
 
-	
 	@Autowired
 	UserService service;
 	
 	@GetMapping(value = "/users")
-	public String homePage(Model model) {
+	public String homePage(Model model) throws ApplicationExceptionHandler {
         model.addAttribute("User", service.getUsers());
         return "index";
     }
