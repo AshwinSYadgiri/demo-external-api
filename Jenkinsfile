@@ -40,7 +40,7 @@ pipeline {
                         script {
                             def url = 'https://devops-platform-users.cfapps.us10-001.hana.ondemand.com/actuator/health'
                             if (sh(returnStdout: true, script: "curl -so /dev/null -w '% {response_code}' ${url}").trim() != '200') {
-                            error "Health check failed: ${statusCode}"
+                            error "Health check failed - Check the application logs"
                             }
                             else {
                             echo 'Service is UP'
