@@ -22,7 +22,19 @@ public class ApplicationExceptionHandlerTest {
 
     @Test
     public void testHandleException() throws Exception {
-        mockMvc.perform(get("/testnousers")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/users")).andExpect(status().isOk());
+        
+    }
+
+    @Test
+    public void testHandleExceptionisOK() throws Exception {
+        mockMvc.perform(get("/user/1")).andExpect(status().isOk());
+        
+    }
+
+    @Test
+    public void testHandleExceptionNotFound() throws Exception {
+        mockMvc.perform(get("/user/23")).andExpect(status().isNotFound());
         
     }
 
