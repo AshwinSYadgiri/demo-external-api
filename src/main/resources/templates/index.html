@@ -1,0 +1,25 @@
+<html>
+    <head>
+    <title>DevOps Platform</title>
+    </head>
+    <body>
+    <h2>DevOps Team </h2>
+    <table border="1">
+        <tr>
+         <td>Id</td>
+         <td>First Name</td>
+         <td>Last Name</td>
+         <td>Email</td>
+         <td>Avatar</td>
+        </tr>
+        <tr th:each="emp : ${User.data}">
+         <td th:text="${emp.id}">Id</td>
+         <td th:text="${emp.first_name}">First Name</td>
+         <td th:text="${emp.last_name}">Last Name</td>
+         <td th:text="${emp.email}">Email</td>
+         <td th:text="${emp.avatar}">Avatar</td>
+        </tr>
+       </table>
+
+    </body>
+</html>
