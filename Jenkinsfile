@@ -75,7 +75,7 @@ pipeline {
                         newmanCollection: "scripts/apiTests.postman_collection.json",
                         runOptions: ["run", "apiTests.postman_collection.json",
                                      "--reporters", "cli,htmlextra",
-                                     "--reporter-htmlextra-export", "target/newman/TEST-newman.html"]
+                                     "--reporter-htmlextra-export", "target/newman/TEST-newman.html"])
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/newman/**'
                 //publish HTML Report
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'target/newman/', pattern: 'TEST-*.html', reportName: 'ResultsTest-DevOps Platform User App'])
