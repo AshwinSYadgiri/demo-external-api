@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ApplicationExceptionHandler {
+public class ApplicationHandlerException extends Exception {
     @ResponseStatus(
             value = HttpStatus.NOT_FOUND,
             reason = "Users not found")

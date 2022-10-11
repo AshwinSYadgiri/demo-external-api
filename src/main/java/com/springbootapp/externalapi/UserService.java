@@ -14,8 +14,8 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.springbootapp.model.User;
+import com.springbootapp.model.Users;
 
 
 @Service
@@ -31,28 +31,62 @@ public class UserService {
 		this.restTemplate = restTemplate;
 	}
 
-	public Object getUsers() {
+	public Object getUsers() throws ApplicationHandlerException {
     	
     	HttpHeaders headers = new HttpHeaders();
 		headers.add("user-agent", "Application");
-		headers.setAccept(Arrays.asList(MediaType.TEXT_HTML));
-		headers.setContentType(MediaType.TEXT_HTML);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		headers.setContentType(MediaType.APPLICATION_JSON);
     	
 		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor(){
 	        @Override
 	        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 	            request.getHeaders().set("User-Agent", "Application"); //Set the header for each request
-	       		request.getHeaders().setAccept(Arrays.asList(MediaType.TEXT_HTML));
-				request.getHeaders().setContentType(MediaType.TEXT_HTML);
+	       		return execution.execute(request, body);
+	        }
+	    }); 
+		
+		ResponseEntity resp = 
+		          restTemplate.getForEntity("https://reqres.in/api/users", Users.class);
+		
+		if ((resp.getStatusCode() == HttpStatus.OK)) {
+			return  resp.getBody();
+		} else {
+			throw new ApplicationHandlerException();
+		}
+				
+        
+	
+    }
+
+	public Object getUserId(String id) throws ApplicationHandlerException {
+    	
+    	HttpHeaders headers = new HttpHeaders();
+		headers.add("user-agent", "Application");
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		headers.setContentType(MediaType.APPLICATION_JSON);
+    	
+	
+		restTemplate.getInterceptors().add(new ClientHttpRequestInterceptor(){
+	        @Override
+	        public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+	            request.getHeaders().set("User-Agent", "Application"); //Set the header for each request
 				return execution.execute(request, body);
 	        }
 	    }); 
 		
 		ResponseEntity resp = 
-		          restTemplate.getForEntity("https://reqres.in/api/users", User.class);
+		          restTemplate.getForEntity("https://reqres.in/api/users/" + id, User.class);
 		
-		return resp.getStatusCode() == HttpStatus.OK ? resp.getBody() : null;
+		if ((resp.getStatusCode() == HttpStatus.OK)) {
+			return  resp.getBody();
+		} else {
+			throw new ApplicationHandlerException();
+		}
+				
         
 	
     }
+
+
 }

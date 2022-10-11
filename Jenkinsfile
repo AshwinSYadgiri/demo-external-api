@@ -1,4 +1,5 @@
 /* groovylint-disable-next-line CompileStatic */
+
 pipeline {
         agent any
         stages {
@@ -19,6 +20,7 @@ pipeline {
 
         //Publish the Test Results
         stage('Publish Results') {
+        when { anyOf { branch 'master'; branch 'PR-*' } }
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 junit 'target/surefire-reports/*.xml'
@@ -28,8 +30,24 @@ pipeline {
 
         //Deploy the artifact to Cloud Foundry
         stage('Deployment') {
+        when { branch "master" }
                 steps {
-                sh 'ls -la'
+                       withCredentials([usernamePassword(credentialsId: 'cf-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'cf login -a https://api.cf.us10-001.hana.ondemand.com -u $USERNAME -p $PASSWORD -o 3301a7a9trial -s dev '
+                        sh 'cf push -f manifest.yml'
+
+                        script {
+                            def url = "https://devops-platform-users.cfapps.us10-001.hana.ondemand.com/actuator/health"
+                            if (sh(returnStdout: true, script: "curl -so /dev/null -w '%{response_code}' ${url}").trim() != '200'){
+                            echo  "Health Check failed"
+                            }
+                            else {
+                                echo "Service is UP"
+                            }
+                             
+                        }
+
+                       }
                 }
         }
         }
