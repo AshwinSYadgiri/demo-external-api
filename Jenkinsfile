@@ -1,7 +1,7 @@
 /* groovylint-disable-next-line CompileStatic */
 
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Checkout') {
             steps {
