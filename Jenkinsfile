@@ -20,6 +20,7 @@ pipeline {
 
         //Publish the Test Results
         stage('Publish Results') {
+        when { anyOf { branch 'master'; branch 'PR-*' } }
             steps {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 junit 'target/surefire-reports/*.xml'
@@ -29,6 +30,7 @@ pipeline {
 
         //Deploy the artifact to Cloud Foundry
         stage('Deployment') {
+        when { anyOf { branch 'master'; branch 'PR-*' } }
                 steps {
                        withCredentials([usernamePassword(credentialsId: 'cf-user', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'cf login -a https://api.cf.us10-001.hana.ondemand.com -u $USERNAME -p $PASSWORD -o 3301a7a9trial -s dev '
