@@ -1,0 +1,21 @@
+---
+general:
+  buildTool: 'maven'
+  productiveBranch: 'master'
+  projectSettingsFile: 'settings.xml'
+  gitHttpsCredentialsId: 'git_credentials_id'
+
+steps:
+   testsPublishResults:
+    junit:
+      active: true
+      archive: true
+
+    jacoco:
+      active: true
+      archive: true
+    mailSendNotification:
+      notificationRecipients: 'ashsy009@gmail.com'
+      notifyCulprits: false
+      notificationAttachment: true
+
