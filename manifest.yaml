@@ -2,7 +2,7 @@
 applications:
 - name: devops-platform-users
   memory: 1G
-  path: target/externalapi-0.0.1-SNAPSHOT.jar
+  path: externalapi-0.0.1-SNAPSHOT.jar
   buildpacks:
     - https://github.com/cloudfoundry/java-buildpack.git
   env:
