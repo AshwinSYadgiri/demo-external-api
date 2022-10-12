@@ -142,6 +142,28 @@ pipeline {
                 input message: 'Shall we proceed to production deployment?'
             }
         }
+
+         stage('Prod - Deployment') {
+            when {
+                branch 'master'
+            }
+            steps {
+                lock(resource: "${env.JOB_NAME}/40", inversePrecedence: true) {
+                    milestone 40
+                    //step from the shared library which cloud foundry plugins already installed.
+					cloudFoundryDeploy(
+                            script: this,
+                            useCAM: false,
+                            cloudFoundry: [apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', credentialsId: 'cf-user', org: ' 3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml',manifestVariablesFiles: 'manifestvars.yml', smokeTestScript: 'healthCheck.sh' ],
+                            deployType: 'blue-green',
+							deployTool: 'cf_native',
+                            
+                        )
+					
+     
+                }
+            }
+        }
     }
 
 
