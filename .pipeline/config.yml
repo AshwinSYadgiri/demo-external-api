@@ -27,7 +27,7 @@ stages:
     cfApiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
     cfAppName: "devops-platform-users"
     cfCredentialsId: cf-user
-    cfManifest: "manifest.yml"
+    cfManifest: "manifest.yaml"
     cfOrg: "3301a7a9trial"
     cfSpace: "dev"
     
@@ -41,5 +41,5 @@ stages:
         apiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
         credentialsId: "cf-user"
         appName: "devops-platform-users-prod"
-        manifest: "manifest-prod.yml"
+        manifest: "manifest-prod.yaml"
    
