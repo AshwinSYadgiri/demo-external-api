@@ -155,7 +155,7 @@ pipeline {
                     //step from the shared library which cloud foundry plugins already installed.
                     multicloudDeploy(
                             script: this,
-                            cfTargets: [apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', appName: 'devops-platform-users', credentialsId: 'cf-user', org: '3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml', smokeTestScript: 'healthCheck.sh' ],
+                            cfTargets:[[apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', appName: 'devops-platform-users', credentialsId: 'cf-user', org: '3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml', smokeTestScript: 'healthCheck.sh' ]],
                             enableZeroDowntimeDeployment: 'true'
 
                         )
