@@ -22,9 +22,7 @@
 	<artifactId>
 		externalapi
 	</artifactId>
-	<version>
-		0.0.1-SNAPSHOT
-	</version>
+	<version>0.0.1-SNAPSHOT-20221012125316_0624f9ba3c4193c919e32767ae8de16faa5a148f</version>
 	<packaging>
 		jar
 	</packaging>
