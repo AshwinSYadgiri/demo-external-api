@@ -1,0 +1,11 @@
+---
+applications:
+- name: ((appname))
+  routes:
+    - route: ((appname))-((org))-((space)).((domain))
+  memory: 512M
+  path: target/externalapi-0.0.1-SNAPSHOT.jar
+  buildpacks:
+    - https://github.com/cloudfoundry/java-buildpack.git
+  env:
+      JBP_CONFIG_OPEN_JDK_JRE: '{ memory_calculator: { stack_threads: 200 } }'
