@@ -156,7 +156,7 @@ pipeline {
                     cloudFoundryDeploy(
                             script: this,
                             useCAM: false,
-                            cloudFoundry: [apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', credentialsId: 'cf-user', org: ' 3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml', manifestVariablesFiles:[ 'manifestvars.yml' ] , smokeTestScript: 'healthCheck.sh' ],
+                            cloudFoundry: [apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', appName: 'devops-platform-users',credentialsId: 'cf-user', org: ' 3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml', manifestVariablesFiles:[ 'manifestvars.yml' ] , smokeTestScript: 'healthCheck.sh' ],
                             deployType: 'blue-green',
                             deployTool: 'cf_native',
 
