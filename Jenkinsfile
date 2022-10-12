@@ -4,7 +4,9 @@
 pipeline {
     agent any
     options {
-    buildDiscarder logRotator(daysToKeepStr: '1', numToKeepStr: '3') }
+        buildDiscarder logRotator(daysToKeepStr: '1', numToKeepStr: '3')
+        skipDefaultCheckout()
+     }
     stages {
         stage('Init') {
             steps {
