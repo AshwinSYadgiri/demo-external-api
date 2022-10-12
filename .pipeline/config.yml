@@ -19,27 +19,4 @@ steps:
       notifyCulprits: false
       notificationAttachment: true
       
-   cloudFoundryDeploy:    
-     smokeTestScript: .pipeline/healthCheck.sh
-
-stages:
-  'Acceptance':
-    cfApiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
-    cfAppName: "devops-platform-users"
-    cfCredentialsId: cf-user
-    cfManifest: "manifest.yaml"
-    cfOrg: "3301a7a9trial"
-    cfSpace: "dev"
-    
-  'Release':
-    testServerUrl: "https://devops-platform-users-prod.cfapps.us10-001.hana.ondemand.com/actuator/health" 
-    enableZeroDowntimeDeployment: true
-    parallelExecution: false
-    cfTargets:
-      - org: "3301a7a9trial"
-        space: "prod"
-        apiEndpoint: "https://api.cf.us10-001.hana.ondemand.com"
-        credentialsId: "cf-user"
-        appName: "devops-platform-users-prod"
-        manifest: "manifest-prod.yaml"
    
