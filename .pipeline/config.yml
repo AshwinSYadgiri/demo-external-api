@@ -3,7 +3,8 @@ general:
   buildTool: 'maven'
   productiveBranch: 'master-shared'
   projectSettingsFile: 'settings.xml'
-  gitHttpsCredentialsId: 'git_credentials_id'
+  gitHttpsCredentialsId: 'git_credentials_username'
+  gitSshKeyCredentialsId: 'git_credentials_id'
 
 steps:
    testsPublishResults:
