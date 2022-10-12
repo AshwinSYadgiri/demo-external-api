@@ -6,7 +6,7 @@ pipeline {
     options {
         buildDiscarder logRotator(daysToKeepStr: '1', numToKeepStr: '3')
         skipDefaultCheckout()
-     }
+    }
     stages {
         stage('Init') {
             steps {
@@ -112,12 +112,12 @@ pipeline {
             steps {
                 lock(resource: "${env.JOB_NAME}/30", inversePrecedence: true) {
                     milestone 30
-                    echo " ....Scans defination and configuration"
+                    echo ' ....Scans defination and configuration'
                 }
             }
         }
 
-          //Whitesource/Mend scans -  open source software security
+        //Whitesource/Mend scans -  open source software security
         stage('Whitesource') {
             when {
                 anyOf {
@@ -128,16 +128,16 @@ pipeline {
             steps {
                 lock(resource: "${env.JOB_NAME}/35", inversePrecedence: true) {
                     milestone 35
-                    echo " ....Whitesource scans defination and configuration"
+                    echo ' ....Whitesource scans defination and configuration'
                 }
             }
         }
-        
+
         //Ready to release - Confirm to proceed
         stage('Confirm to Proceed') {
             agent none
             options {
-                timeout(time: 1, unit: 'HOURS') 
+                timeout(time: 1, unit: 'HOURS')
             }
             when { branch 'master' }
             steps {
@@ -145,7 +145,7 @@ pipeline {
             }
         }
 
-         stage('Prod - Deployment') {
+        stage('Prod - Deployment') {
             when {
                 branch 'master'
             }
@@ -153,22 +153,19 @@ pipeline {
                 lock(resource: "${env.JOB_NAME}/40", inversePrecedence: true) {
                     milestone 40
                     //step from the shared library which cloud foundry plugins already installed.
-					cloudFoundryDeploy(
+                    cloudFoundryDeploy(
                             script: this,
                             useCAM: false,
                             cloudFoundry: [apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com', credentialsId: 'cf-user', org: ' 3301a7a9trial', space: 'prod', manifest: 'manifest-prod.yml', manifestVariablesFiles:[ 'manifestvars.yml' ] , smokeTestScript: 'healthCheck.sh' ],
                             deployType: 'blue-green',
-							deployTool: 'cf_native',
-                            
+                            deployTool: 'cf_native',
+
                         )
-					
-     
+
                 }
             }
         }
     }
-
-
 
     post {
         always {
