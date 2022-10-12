@@ -78,7 +78,7 @@ pipeline {
                                      "--reporter-htmlextra-export", "target/newman/TEST-newman.html"])
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/newman/**'
                 //publish HTML Report
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'target/newman/', reportName: 'ResultsTest-DevOps Platform User App'])
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportFiles: 'TEST-newman.html',reportDir: 'target/newman/', reportName: 'ResultsTest-DevOps Platform User App'])
             }
         }
     }
