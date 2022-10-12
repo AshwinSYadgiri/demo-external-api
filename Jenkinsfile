@@ -73,7 +73,7 @@ pipeline {
                 newmanExecute(script: this, failOnError: true,
                         newmanInstallCommand: 'npm install newman --global newman-reporter-htmlextra --quiet',
                         newmanCollection: "scripts/apiTests.postman_collection.json",
-                        runOptions: ["run", "apiTests.postman_collection.json",
+                        runOptions: ["run", "scripts/apiTests.postman_collection.json",
                                      "--reporters", "cli,htmlextra",
                                      "--reporter-htmlextra-export", "target/newman/TEST-newman.html"])
                 archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/newman/**'
